@@ -1,5 +1,6 @@
 var React = require('react');
 var transparentBg = require('../styles').transparentBg;
+var Prompt = require('../components/prompt');
 
 var PromptContainer = React.createClass({
     contextTypes: {
@@ -10,13 +11,12 @@ var PromptContainer = React.createClass({
             username: ''
         }
     },
-    onUpdateUser: function(event){
+    handleUpdateUser: function(event){
         this.setState({
             username: event.target.value
         })
     },
-    onSubmitUser : function(e){
-        console.log("here");
+    handleSubmitUser : function(e){
         e.preventDefault();
         var username = this.state.username;
         this.setState({
@@ -32,35 +32,17 @@ var PromptContainer = React.createClass({
                 }
             })
         }else{
-            console.log("here");
             this.context.router.push('/playerTwo/'+ this.state.username)
         }
     },
     render :function () {
         //console.log(this)
         return (
-            <div className="jumbotron col-sm-6 col-sm-offset-3 text-center" style={transparentBg}>
-                <h1>{this.props.route.header}</h1>
-                <div className="col-sm-12">
-                    <from onSubmit={this.onSubmitUser}>
-                        <div className="form-group">
-                            <input
-                                className="form-control"
-                                placeholder="Github Username"
-                                onChange={this.onUpdateUser}
-                                value={this.state.username}
-                                type= "text" />
-                        </div>
-                        <div className="form-group col-sm-4 col-sm-offset-4">
-                            <button
-                                className="btn btn-block btn-success"
-                                type="submit">
-                                        Continue
-                            </button>
-                        </div>
-                    </from>
-                </div>
-            </div>
+            <Prompt
+            onSubmitUser = {this.handleSubmitUser}
+            onUpdateUser = {this.handleUpdateUser}
+            username ={this.state.username}
+            header={this.props.route.header}/>
         )
     }
 });
